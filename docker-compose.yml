@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  mongo:
+    container_name: self-service-order-mongo
+    image: mongo
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh admin -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
+    volumes:
+      - ./mongo-data:/data/db
+
+  order-api:
+    container_name: self-service-order-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    volumes:
+      - .:/usr/app
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - DATABASE_HOST=mongo
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+    depends_on:
+      mongo:
+        condition: service_healthy
