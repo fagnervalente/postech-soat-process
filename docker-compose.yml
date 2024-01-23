@@ -1,8 +1,8 @@
-version: '3.4'
+version: "3.4"
 
 services:
   mongo:
-    container_name: self-service-order-mongo
+    container_name: self-service-process-mongo
     image: mongo
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh admin -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
@@ -19,8 +19,8 @@ services:
     volumes:
       - ./mongo-data:/data/db
 
-  order-api:
-    container_name: self-service-order-api
+  process-api:
+    container_name: self-service-process-api
     build:
       context: .
       dockerfile: ./Dockerfile
