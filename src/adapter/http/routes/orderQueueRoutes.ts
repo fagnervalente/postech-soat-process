@@ -1,12 +1,12 @@
 import { Router } from "express";
 import HttpUtils from "../HttpUtils";
-import OrderAPIController from "../controllers/OrderAPIController";
+import OrderQueueAPIController from "../controllers/OrderQueueAPIController";
 
 const orderQueueRoutes = HttpUtils.asyncRouterHandler(Router());
 
-orderQueueRoutes.get('/order', new OrderAPIController().list);
-orderQueueRoutes.post('/order/checkout', new OrderAPIController().checkout);
-orderQueueRoutes.get('/order/payment/:id', new OrderAPIController().getById);
-orderQueueRoutes.put('/order/status/:id', new OrderAPIController().updateStatus);
+orderQueueRoutes.get('/orderQueue', new OrderQueueAPIController().list);
+orderQueueRoutes.post('/orderQueue/add', new OrderQueueAPIController().addToQueue);
+orderQueueRoutes.get('/orderQueue/order/:id', new OrderQueueAPIController().getById);
+orderQueueRoutes.put('/orderQueue/status/:id', new OrderQueueAPIController().updateStatus);
 
 export default orderQueueRoutes;

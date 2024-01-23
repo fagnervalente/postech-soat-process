@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import OrderQueueDatabaseRepository from "@database/repository/OrderQueueDatabaseRepository";
-import OrderController from "@controllers/OrderController";
+import OrderQueueController from "@controllers/OrderQueueController";
 import { OrderStatus } from "@entities/OrderQueue";
 
 const orderRepository = new OrderQueueDatabaseRepository();
 
-export default class OrderAPIController {
-	async checkout(req: Request, res: Response) {
+export default class OrderQueueAPIController {
+	async addToQueue(req: Request, res: Response) {
 		// #swagger.tags = ['Order']
 		// #swagger.description = 'Endpoint para realizar o checkout.'
 		/* #swagger.parameters['checkout'] = {
@@ -17,7 +17,7 @@ export default class OrderAPIController {
 		} */
 		const { products, cpf } = req.body;
 
-		OrderController.checkout(products, cpf, orderRepository)
+		OrderQueueController.addToQueue(products, cpf, orderRepository)
 			.then((result: any) => {
 				/* #swagger.responses[201] = {
 						schema: { $ref: "#/definitions/OrderCreated" },
@@ -34,7 +34,7 @@ export default class OrderAPIController {
 		// #swagger.tags = ['Order']
 		// #swagger.description = 'Endpoint para listar todos os pedidos.'
 
-		OrderController.list(orderRepository)
+		OrderQueueController.list(orderRepository)
 			.then((result: any) => {
 				/* #swagger.responses[200] = {
 						schema: { $ref: "#/definitions/ListOrders" },
@@ -52,7 +52,7 @@ export default class OrderAPIController {
 		// #swagger.description = 'Endpoint que retorna o status de pagamento de um pedido.'
 		const orderId = Number(req.params.id);
 
-		OrderController.getById(orderId, orderRepository)
+		OrderQueueController.getById(orderId, orderRepository)
 			.then((result: any) => {
 				/* #swagger.responses[200] = {
 						schema: { $ref: "#/definitions/GetPaymentStatus" },
@@ -71,7 +71,7 @@ export default class OrderAPIController {
 		const orderId = Number(req.params.id);
 		const orderStatus = req.body.status as OrderStatus;
 
-		OrderController.updateStatus(orderId, orderStatus, orderRepository)
+		OrderQueueController.updateStatus(orderId, orderStatus, orderRepository)
 			.then((result: any) => {
 				/* #swagger.responses[200] = {
 						description: 'Status do pedido'

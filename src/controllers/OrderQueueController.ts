@@ -5,8 +5,8 @@ import GetByIdUseCase from "@useCases/GetByIdUseCase";
 import ListUseCase from "@useCases/ListUseCase";
 import UpdateStatusUseCase from "@useCases/UpdateStatusUseCase";
 
-export default class OrderController {
-	static async checkout(products: Array<number>, cpf: string, orderRepository: IOrderQueueRepository) {
+export default class OrderQueueController {
+	static async addToQueue(products: Array<number>, cpf: string, orderRepository: IOrderQueueRepository) {
 		const createUseCase = new CreateUseCase(orderRepository);
 		const result = await createUseCase.execute({ products, customerId: cpf } as OrderQueue);
 
