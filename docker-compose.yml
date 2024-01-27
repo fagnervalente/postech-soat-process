@@ -12,10 +12,10 @@ services:
       start_period: 20s
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_MONGO_PASSWORD}
     ports:
-      - "${DATABASE_PORT}:${DATABASE_PORT}"
+      - "${DATABASE_MONGO_PORT}:${DATABASE_MONGO_PORT}"
     volumes:
       - ./mongo-data:/data/db
 
@@ -30,11 +30,11 @@ services:
       - .:/usr/app
     environment:
       - SERVER_PORT=${SERVER_PORT}
-      - DATABASE_HOST=mongo
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_NAME=${DATABASE_NAME}
-      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_MONGO_HOST=mongo
+      - DATABASE_MONGO_USER=${DATABASE_MONGO_USER}
+      - DATABASE_MONGO_PASSWORD=${DATABASE_MONGO_PASSWORD}
+      - DATABASE_MONGO_NAME=${DATABASE_MONGO_NAME}
+      - DATABASE_MONGO_PORT=${DATABASE_MONGO_PORT}
     depends_on:
       mongo:
         condition: service_healthy
