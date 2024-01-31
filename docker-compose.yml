@@ -35,6 +35,7 @@ services:
       - DATABASE_MONGO_PASSWORD=${DATABASE_MONGO_PASSWORD}
       - DATABASE_MONGO_NAME=${DATABASE_MONGO_NAME}
       - DATABASE_MONGO_PORT=${DATABASE_MONGO_PORT}
+      - ORDER_SERVICE_ENDPOINT=${ORDER_SERVICE_ENDPOINT}
     depends_on:
       mongo:
         condition: service_healthy
