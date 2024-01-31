@@ -1,26 +1,14 @@
 import { Given, Then } from "@cucumber/cucumber";
-import { OrderQueue, OrderStatus } from "../../../src/domain/entities/OrderQueue";
-import CreateUseCase from "../../../src/app/useCase/CreateUseCase";
 import GetByIdUseCase from "../../../src/app/useCase/GetByIdUseCase";
 import OrderQueueInMemoryRepository from '../../utils/repositoryInMemory/OrderQueueInMemoryRepository';
 import assert from "assert";
 
-const mockedOrder: OrderQueue = ({
-  orderId: 1,
-  status: OrderStatus.RECEBIDO,
-  id: 1,
-});
-
 const orderQueueRepository = new OrderQueueInMemoryRepository();
-const createUseCase = new CreateUseCase(orderQueueRepository);
 let getByIdUseCase = new GetByIdUseCase(orderQueueRepository);
 
-Given('inicio a obtenção do pedido da fila passando o id {int} como parametro', async function (int) {
-  if (int == 1) {
-    await saveMockOrder(mockedOrder);
-  }
+Given('inicio a obtenção do pedido da fila passando o id {string} como parametro', async function (string) {
   getByIdUseCase = new GetByIdUseCase(orderQueueRepository);
-  this.result = [await getByIdUseCase.execute(int)];
+  this.result = [await getByIdUseCase.execute(string)];
 });
 
 Then('o resultado deve ser de sucesso', function () {
@@ -38,8 +26,3 @@ Then('o resultado deve retornar erro', function () {
 Then('deve retornar a mensagem de erro {string}', function (string) {
   return assert.deepStrictEqual(getByIdUseCase.getErrors()[0].message, string);
 });
-
-async function saveMockOrder(mock: OrderQueue | any): Promise<OrderQueue | null> {
-  const created = await createUseCase.execute(mock);
-  return created;
-}

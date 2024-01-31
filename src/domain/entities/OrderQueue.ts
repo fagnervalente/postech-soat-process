@@ -5,8 +5,15 @@ export enum OrderStatus {
   FINALIZADO = "Finalizado"
 }
 
+export enum OrderPaymentStatus {
+  APROVADO = "Aprovado",
+  RECUSADO = "Recusado",
+  AGUARDANDO = "Aguardando pagamento"
+}
+
 export class OrderQueue {
-  id?: number;
+  id?: string;
   status?: OrderStatus;
-  orderId?: number;
+  orderId?: string;
+  paymentStatus?: OrderPaymentStatus;
 }

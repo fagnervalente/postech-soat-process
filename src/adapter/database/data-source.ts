@@ -5,6 +5,7 @@ import { DataSource } from "typeorm";
 export const AppDataSource = new DataSource({
   type: 'mongodb',
   ssl: false,
+  authSource: "admin",
   host: process.env.DATABASE_MONGO_HOST,
   port: process.env.DATABASE_MONGO_PORT as number | undefined,
   username: process.env.DATABASE_MONGO_USER,

@@ -5,7 +5,7 @@ import { OrderQueue } from "@entities/OrderQueue";
 
 export default class OrderQueueDatabaseRepository implements IOrderQueueRepository {
 
-  orderQueueRepository = AppDataSource.getRepository(OrderQueueModel);
+  orderQueueRepository = AppDataSource.getMongoRepository(OrderQueueModel);
 
   async save(order: OrderQueue): Promise<OrderQueue> {
     const newOrder = this.orderQueueRepository.create(order);
@@ -22,12 +22,12 @@ export default class OrderQueueDatabaseRepository implements IOrderQueueReposito
   }
 
   async update(order: OrderQueue): Promise<void> {
-    const orderId = Number(order.orderId);
+    const orderId = order.orderId;
     await this.orderQueueRepository.update({ orderId: orderId }, order);
     return;
   }
 
-  async findById(id: number): Promise<OrderQueue | null> {
+  async findById(id: string): Promise<OrderQueue | null> {
     return await this.orderQueueRepository.findOneBy({ orderId: id });
   }
 

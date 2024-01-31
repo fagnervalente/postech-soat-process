@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ObjectIdColumn } from 'typeorm';
 
 export enum OrderStatus {
   RECEBIDO = "Recebido",
@@ -7,10 +7,16 @@ export enum OrderStatus {
   FINALIZADO = "Finalizado"
 }
 
+export enum OrderPaymentStatus {
+  APROVADO = "Aprovado",
+  RECUSADO = "Recusado",
+  AGUARDANDO = "Aguardando pagamento"
+}
+
 @Entity('orders')
 export class OrderQueueModel {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  @ObjectIdColumn()
+  id?: string;
 
   @Column({
     type: "enum",
@@ -19,16 +25,28 @@ export class OrderQueueModel {
   })
   status?: OrderStatus;
 
+  @Column({
+    type: "enum",
+    enum: OrderPaymentStatus,
+    default: OrderPaymentStatus.AGUARDANDO
+  })
+  paymentStatus?: OrderPaymentStatus;
+
   @Column()
-  orderId?: number;
+  orderId?: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   constructor(
-    id: number | undefined,
+    id: string | undefined,
     status: OrderStatus | undefined,
-    orderId: number | undefined,
+    paymentStatus: OrderPaymentStatus | undefined,
+    orderId: string | undefined,
   ) {
     this.id = id;
     this.status = status;
+    this.paymentStatus = paymentStatus;
     this.orderId = orderId;
   }
 }

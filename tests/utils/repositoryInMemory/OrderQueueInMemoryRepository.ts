@@ -8,7 +8,7 @@ export default class OrderQueueInMemoryRepository implements OrderQueueRepositor
 	public async save(order: Order): Promise<Order> {
 		const created = {
 			...order,
-			id: order.id ? order.id : Math.floor(Math.random() * Date.now())
+			id: order.id ? order.id : Math.floor(Math.random() * Date.now()).toString()
 		};
 		this.orders.push(created);
 
@@ -29,7 +29,7 @@ export default class OrderQueueInMemoryRepository implements OrderQueueRepositor
 	}
 
 
-	public async findById(id: number): Promise<Order | null> {
+	public async findById(id: string): Promise<Order | null> {
 		const found = this.orders.find((order) => order.id == id) ?? null;
 		return found;
 	}

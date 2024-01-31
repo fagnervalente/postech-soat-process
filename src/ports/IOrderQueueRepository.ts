@@ -4,5 +4,5 @@ export default interface IOrderQueueRepository {
   save(order: OrderQueue): Promise<OrderQueue | null>;
   list(): Promise<OrderQueue[]>;
   update(order: OrderQueue): Promise<void>;
-  findById(id: number): Promise<OrderQueue | null>
+  findById(id: string): Promise<OrderQueue | null>
 }
