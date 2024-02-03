@@ -24,7 +24,7 @@ export default class CreateUseCase extends AbstractUseCase {
 		} else {
 			orderQueue.status = OrderStatus.RECEBIDO;
 		}
-
+		
 		const orderEndpoint = process.env.ORDER_SERVICE_ENDPOINT as string;
 		await got.put(`${orderEndpoint}/paymentStatus/${orderId}`, { json: { status: orderQueue.paymentStatus } });
 
@@ -32,16 +32,15 @@ export default class CreateUseCase extends AbstractUseCase {
 	}
 
 	private async getParsedOrderId(order: OrderQueue): Promise<string | undefined> {
-		if (!order.orderId && order.orderId === "") {
+		if (!order.orderId) {
+			this.setError({ message: "Order id required!" });
+		} else {
 			const orderEndpoint = process.env.ORDER_SERVICE_ENDPOINT as string;
 			const response = await got.get(`${orderEndpoint}/payment/${order.orderId}`);
 			if (response.statusCode != 200) {
 				this.setError(JSON.parse(response.body))
 			}
-		} else {
-			this.setError({ message: "Order id required!" })
 		}
-
 		return order.orderId;
 	}
 }

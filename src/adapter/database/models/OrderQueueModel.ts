@@ -32,7 +32,7 @@ export class OrderQueueModel {
   })
   paymentStatus?: OrderPaymentStatus;
 
-  @Column()
+  @Column({type: "string"})
   orderId?: string;
 
   @CreateDateColumn()

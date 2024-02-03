@@ -10,7 +10,11 @@ export default class GetByIdUseCase extends AbstractUseCase {
 
 	async execute(orderId: string): Promise<OrderQueue | null> {
 		const order = await this.orderRepository.findById(orderId);
-		if (!order) this.setError({ message: "Order not found" });
+		
+		if (!order){
+			this.setError({ message: "Order not found" });
+			return null;
+		}
 
 		return { orderId: order?.orderId, status: order?.status };
 	}
