@@ -9,7 +9,6 @@ export default class OrderQueueController {
 	static async addToQueue(orderId: string, orderRepository: IOrderQueueRepository) {
 		const createUseCase = new CreateUseCase(orderRepository);
 		const result = await createUseCase.execute({ orderId } as OrderQueue);
-
 		if (createUseCase.hasErrors()) throw createUseCase.getErrors();
 
 		return { Pedido: result?.id };
