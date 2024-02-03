@@ -15,7 +15,7 @@ export default class UpdateStatusUseCase extends AbstractUseCase {
 		if (this.hasErrors()) {
 			return null;
 		}
-		
+
 		const order = await this.orderRepository.findById(orderId);
 		order!.status = status!;
 
@@ -24,7 +24,6 @@ export default class UpdateStatusUseCase extends AbstractUseCase {
 
 	private async validateOrder(id: string) {
 		const found = await this.orderRepository.findById(id);
-		console.log(found)
 		if (!found) this.setError({ message: "Order not found" });
 	}
 
