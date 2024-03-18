@@ -2,8 +2,10 @@ import { Request, Response } from "express";
 import OrderQueueDatabaseRepository from "@database/repository/OrderQueueDatabaseRepository";
 import OrderQueueController from "@controllers/OrderQueueController";
 import { OrderStatus } from "@entities/OrderQueue";
+import OrderQueueOUT from "../../messaging/OrderQueueOUT"
 
 const orderRepository = new OrderQueueDatabaseRepository();
+const orderQueueOUT = new OrderQueueOUT();
 
 export default class OrderQueueAPIController {
 	async addToQueue(req: Request, res: Response) {
@@ -42,7 +44,7 @@ export default class OrderQueueAPIController {
 		const orderId = req.params.id;
 		const orderStatus = req.body.status as OrderStatus;
 
-		OrderQueueController.updateStatus(orderId, orderStatus, orderRepository)
+		OrderQueueController.updateStatus(orderId, orderStatus, orderRepository, orderQueueOUT)
 			.then((result: any) => {
 				return res.status(200).json(result);
 			})

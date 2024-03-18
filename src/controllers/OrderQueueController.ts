@@ -4,6 +4,7 @@ import IOrderQueueRepository from "../ports/IOrderQueueRepository";
 import GetByIdUseCase from "@useCases/GetByIdUseCase";
 import ListUseCase from "@useCases/ListUseCase";
 import UpdateStatusUseCase from "@useCases/UpdateStatusUseCase";
+import IOrderQueueOUT from "@ports/IOrderQueueOUT";
 
 export default class OrderQueueController {
 	static async addToQueue(orderId: string, orderRepository: IOrderQueueRepository) {
@@ -32,8 +33,8 @@ export default class OrderQueueController {
 		return result;
 	}
 
-	static async updateStatus(orderId: string, orderStatus: OrderStatus, orderRepository: IOrderQueueRepository) {
-		const updateStatusUseCase = new UpdateStatusUseCase(orderRepository);
+	static async updateStatus(orderId: string, orderStatus: OrderStatus, orderRepository: IOrderQueueRepository, orderQueueOUT: IOrderQueueOUT) {
+		const updateStatusUseCase = new UpdateStatusUseCase(orderRepository, orderQueueOUT);
 
 		await updateStatusUseCase.execute(orderId, orderStatus);
 

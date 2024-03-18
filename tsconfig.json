@@ -23,7 +23,8 @@
 			"@controllers/*": ["./src/controllers/*"],
 			"@validation/*": ["./src/app/validation/*"],
 			"@database/*": ["./src/adapter/database/*"],
-			"@http/*": ["./src/adapter/http/*"]
+			"@http/*": ["./src/adapter/http/*"],
+			"@error/*": ["./src/domain/error/*"]
 		}
 	},
 	"include": ["src/**/*"],
